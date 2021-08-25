@@ -1,25 +1,68 @@
-import logo from './logo.svg';
 import './App.css';
+import React,{useState} from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import List from './list';
+import Demo from './demo';
 
-function App() {
+function App() { 
+   const [names,setName]=useState();
+   const [email,setEmail]=useState();
+   const [combine,setCombine]=useState([]); 
+  
+  
+
+  
+const DataSubmited=(e)=>{
+  e.preventDefault();
+  const value={names,email};
+  if(names&&email){
+    setCombine(datas=>[...datas,value])
+    setName("")
+    setEmail("")
+  }
+}
+
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <form onSubmit={DataSubmited}>
+        <input type="text"   value={names} onChange={e=>setName(e.target.value)}/>
+        <input type="text"  value={email} onChange={e=>setEmail(e.target.value)}/>
+        <button>submit</button>
+        </form>
+       
+        <Router>
+      <div>
+        
+             <h1> <Link to="/list">List</Link></h1>
+             <h1> <Link to="/demo">Demo</Link></h1>
+           
+ 
+        <Switch>
+          <Route path="/list"> 
+          <List combine={combine}/>
+         
+          </Route>
+          <Route path="/demo">
+            <Demo />
+          </Route>
+          
+        </Switch>
+ 
+      </div>
+    </Router>
+
+    
     </div>
+    
   );
 }
 
 export default App;
+
